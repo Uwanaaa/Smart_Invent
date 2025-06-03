@@ -30,8 +30,8 @@ class ObtainToken(TokenObtainPairView):
             key = 'access_token',
             value = data['access'],
             httponly = True,
-            secure = False,
-            samesite = 'Lax',
+            secure = True,
+            samesite = 'None',
             max_age = 3600 
         )
 
@@ -39,8 +39,8 @@ class ObtainToken(TokenObtainPairView):
             key = 'refresh_token',
             value = data['refresh'],
             httponly = True,
-            secure = False,
-            samesite = 'Lax',
+            secure = True,
+            samesite = 'None',
             max_age = 86400
         )
 

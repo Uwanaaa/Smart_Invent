@@ -1,77 +1,76 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch,useSelector } from 'react-redux'
-import { login } from '../../redux/authSlice'
-import axios from 'axios'
-import './SignUp.css'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../redux/authSlice';
+import axiosInstance from '../utils/axiosInstance';
+import inventory2 from '../assets/inventory2.jpeg'
+import './SignUp.css';
 
 const Login = () => {
-  const [username, setName] = useState('')
-  const [password, setPassword] = useState('')
-  const [message, setMessage] = useState('')
+  const [username, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    
-  
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
 
     if (!username || !password) {
-      setMessage('Please fill in all fields.')
-      return
+      setMessage('Please fill in all fields.');
+      return;
     }
-    axios.post('http://localhost:8000/users/login/',{
-        username,
-        password
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
+
+    axiosInstance.post('/users/login/', { username, password }, {
+      headers: { 'Content-Type': 'application/json' }
     }).then(response => {
-        console.log(`response: ${response.headers}`)
-        dispatch(login('hi'))
-        navigate('/products')
+        console.log(`response: ${response.headers}`);
+        dispatch(loginUser());
+        navigate('/products');
     }).catch(error => {
-        dispatch(login('hi'))
-        navigate('/products')
-        console.error('Login error:', error.response ? error.response.data : error.message)
-        if (error.message.detail){
-          setMessage(error.message.detail)
-        }
-        setMessage('Login failed. Please check your credentials.')
-    })
-  }
+        console.error('Login error:', error.response ? error.response.data : error.message);
+        setMessage('Login failed. Please check your credentials.');
+    });
+  };
 
   return (
-    <div className="signup-container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+    <>
+    <nav>
+        <div className="landing-nav">
+          <div className="logo" onClick={() => {navigate('/')}}>SmartInvent</div>
         </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      <p><a href="/signup">No account ?</a></p>
-      {message && <p>{message}</p>}
-    </div>
-  )
-}
+      </nav>
 
-export default Login
+    <div className="main-container">
+      <img src={inventory2} alt="inventory2" />
+      <div className="login-container">
+        <h2>Login</h2>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <label>Username:</label>
+          <input 
+            type="text" 
+            value={username} 
+            onChange={(e) => setName(e.target.value)} 
+            required 
+          />
+          
+          <label>Password:</label>
+          <input 
+            type="password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
+          />
+          
+          <button type="submit" className="login-button">Login</button>
+        </form>
+        <p className="login-link"><a href="/signup">No account?</a></p>
+        {message && <p className="login-message">{message}</p>}
+      </div>
+    </div>
+   </>
+  );
+};
+
+export default Login;

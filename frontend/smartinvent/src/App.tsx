@@ -1,6 +1,7 @@
-import './App.css'
+import './index.css'
 
 
+import LandingPage from './components/LandingPage'
 import SignUp from './users/SignUp'
 import Login from './users/Login'
 import ProductsPage from './products/ProductsPage'
@@ -17,8 +18,9 @@ function App() {
 
   return (
     <Routes>
+      <Route path='/' element={<LandingPage />} />
       <Route path="/signup" element={<SignUp />} />
-      <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/update" element={<Update />} />
 
       <Route element={<ProtectedRoute />}>
