@@ -48,8 +48,8 @@ const LandingPage = () => {
           <div className="hero-cta">
             {!isAuthenticated && (
               <>
-                <Link to="/register" className="btn btn-primary btn-large link">Get Started</Link>
-                <Link to="#features" className="btn btn-outline btn-large link">Learn More</Link>
+                <Link to="/signup" className="btn btn-primary btn-large link">Get Started</Link>
+                <Link to = '#' onClick={scrollToFeatures} className="btn btn-outline btn-large link">Learn More</Link>
               </>
             )}
           </div>
@@ -91,7 +91,7 @@ const LandingPage = () => {
         <div className="cta-content">
           <h2>Ready to get started?</h2>
           <p>Start your free trial today.</p>
-          {!isAuthenticated && <Link to="/register" className="btn btn-primary btn-large link">Get started</Link>}
+          {!isAuthenticated && <Link to="/signup" className="btn btn-primary btn-large link">Get started</Link>}
         </div>
      </motion.div>
       </section>

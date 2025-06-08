@@ -1,16 +1,14 @@
+from django.contrib.auth import authenticate, login, logout
 from django.db.utils import IntegrityError
-from rest_framework.permissions import IsAuthenticated,AllowAny
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.views import APIView,Response
+from django.shortcuts import get_object_or_404, render
 from rest_framework import status
-from .repositories.users_repository import UserRepo
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.views import APIView, Response
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 from .models import User
-from .serializers import UserSerializer,CustomSerializer
-from django.contrib.auth import login,logout,authenticate
-from django.shortcuts import render,get_object_or_404
-
-
-
+from .repositories.users_repository import UserRepo
+from .serializers import CustomSerializer, UserSerializer
 
 
 def serve_react(request):

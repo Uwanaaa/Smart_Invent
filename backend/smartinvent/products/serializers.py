@@ -1,6 +1,8 @@
-from rest_framework import serializers
 from django.shortcuts import get_object_or_404
-from .models import Product,ProductReplenishment
+from rest_framework import serializers
+
+from .models import Product, ProductReplenishment
+
 
 class ProductSerializer(serializers.ModelSerializer):
     provider_id = serializers.SerializerMethodField()

@@ -10,10 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
-from datetime import timedelta
-from dotenv import load_dotenv
 import os
+from datetime import timedelta
+from pathlib import Path
+
+from dotenv import load_dotenv
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,13 +41,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #APPS
     'users',
     'products',
+    'tenants',
+
+    #INSTALLED PACKAGES
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
     'sslserver',
-    'django_extensions'
+    'django_extensions',
+    'csp',
+    'django_tenants'
 ]
 
 MIDDLEWARE = [
@@ -59,14 +67,18 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_tenants.middleware.TenantMiddleware',
 ]
 
+
+#CSRF SETTINGS
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173',
-    # 'http://192.168.1.132:3000',
-    # 'http://localhost:3000'
+    'https://localhost:3000'
 ]
 
+
+#CORS SETTINGS
 CORS_ALLOW_ALL_HEADERS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = (
@@ -80,9 +92,31 @@ CORS_ALLOW_METHODS = (
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    'https://localhost:3000'
 ]
 
 
+#FRAMING SETTINGS
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+
+# CSP SETTINGS 
+CONTENT_SECURITY_POLICY = {
+    'default-src': ["'self'"],
+    'script-src': ["'self'"],
+    'style-src': ["'self'"],
+    'img-src': ["'self'", "https://cdn.jsdelivr.net"],
+    'font-src': ["'self'", "https://fonts.gstatic.com"],
+    'frame-src': ["'self'"],
+    'connect-src': ["'self'"],
+    'object-src': ["'none'"],
+}
+
+
+#MULTI-TENANCY SETTING
+DATABASE_ROUTERS = ['django_tenants.routers.TenantSyncRouter']
+TENANT_MODEL = ''
+TENANT_DOMAIN_MODEL = ''
 
 ROOT_URLCONF = 'smartinvent.urls'
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IoArrowBack } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance';
 import '../users/SignUp.css';
 
 const ReplenishProduct = () => {
@@ -20,14 +20,12 @@ const ReplenishProduct = () => {
       setMessage('Please fill in all fields.');
       return;
     }
-    axios.post('http://localhost:8000/products/provider-form/',{
+    axiosInstance.post('http://localhost:8000/products/provider-form/',{
         providerName,
         defaultValue,
         providerEmail,
         address,
         providerNumber
-    }, {
-        withCredentials:true
     }).then(response => {
         console.log(`response: ${response.data.message}`);
         setMessage(response.data.message);

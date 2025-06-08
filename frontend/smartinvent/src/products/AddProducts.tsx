@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { IoArrowBack } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../users/SignUp.css';
+import axiosInstance from '../utils/axiosInstance';
+import './Update.css';
 
 const AddProduct = () => {
   const [name, setName] = useState('');
@@ -20,13 +20,11 @@ const AddProduct = () => {
       setMessage('Please fill in all fields.');
       return;
     }
-    axios.post('http://localhost:8000/products/create-product/',{
+    axiosInstance.post('products/create-product/',{
         name,
         description,
         price,
         stock
-    }, {
-        withCredentials:true
     }).then(response => {
         if (response.status == 201){
           console.log(`response: ${response.data.message}`);
@@ -34,17 +32,25 @@ const AddProduct = () => {
           setShowProvider(true)
         }
         setMessage(response.data.message)
-    })
+    }).catch(error => {
+      if (error.response){
+        setMessage(error.response.data.detail)
+      } else {
+        setMessage('Updating profile failed. Please try again.')
+      }
+  })
 
    
   };
 
   return (
-   <>
-   <button onClick={() => {navigate('/products')}}> <IoArrowBack /> Back</button>
-    <div className="signup-container">
+   <div className='form-page'>
+   <nav className="nav-div">
+    <button onClick={() => {navigate('/products')}}> <IoArrowBack /> Back</button>
+   </nav> 
+    <div className="update-container">
       <h2>Add Product</h2>
-      <form onSubmit={handleSubmit}>
+      <form className='update-form' onSubmit={handleSubmit}>
         <div>
           <label>Name:</label>
           <input
@@ -81,17 +87,17 @@ const AddProduct = () => {
             required
           />
         </div>
-        <button type="submit">Add new</button>
+        <button type="submit" className="login-button" >Add new</button>
       </form>
       {message && <p>{message}</p>}
       {showProvider && <div>
         <p>Do you also want to add the supplier's information for automatic restock of goods when in low Quantity ?</p>
-        <button onClick={() => {navigate('provider-form')}}>Yeah, sure</button>
-        <button onClick={() => {navigate('/products')}}>No</button>
+        <button onClick={() => {navigate('provider-form')}} className="login-button">Yeah, sure</button>
+        <button onClick={() => {navigate('/products')}} className="login-button">No</button>
         </div>
         }
     </div>
-    </>
+    </div>
   );
 };
 

@@ -11,7 +11,7 @@ const SignUp = () => {
   const [role, setRole] = useState('User');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // Toggle state
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (e: any) => {
@@ -79,7 +79,7 @@ const SignUp = () => {
 
         <button type="submit" className="login-button">Sign Up</button>
       </form>
-      <p className="login-link"><a href="/login">Already have an account?</a></p>
+      <p className="login-link-signup"><a href="/login">Already have an account?</a></p>
       {message && <p className="login-message">{message}</p>}
     </div>
    </div>

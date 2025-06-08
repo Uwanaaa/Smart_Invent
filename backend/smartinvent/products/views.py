@@ -1,13 +1,13 @@
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView,Response
-from rest_framework import status
-
 from django.shortcuts import get_object_or_404
-from .models import Product,ProductReplenishment
-from users.models import User
-from .permissions import isAdmin
-from .serializers import ProductReplenishmentSerializer,ProductSerializer
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView, Response
 
+from users.models import User
+
+from .models import Product, ProductReplenishment
+from .permissions import isAdmin
+from .serializers import ProductReplenishmentSerializer, ProductSerializer
 
 
 class CreateProduct(APIView):

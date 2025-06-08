@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { IoArrowBack } from "react-icons/io5";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { useParams,useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../users/SignUp.css';
+import axiosInstance from '../utils/axiosInstance';
+import './Update.css';
 
 const UpdateProduct = () => {
   const [name, setName] = useState('')
@@ -21,9 +21,8 @@ const UpdateProduct = () => {
 
   const getProduct = () => {
     if (productId){
-        axios.get(`http://localhost:8000/products/get-product/${productId}/`, {
-            withCredentials:true
-        }).then((response) => {
+        axiosInstance.get(`products/get-product/${productId}/`)
+        .then((response) => {
             console.log(`Data: ${response.data.provider_id}`);
             setName(response.data.name)
             setDescription(response.data.description)
@@ -49,53 +48,59 @@ const UpdateProduct = () => {
       setMessage('Please fill in all fields.');
       return;
     }
-    axios.post(`http://localhost:8000/products/update-product/${productId}/`,{
+    axiosInstance.post(`products/update-product/${productId}/`,{
         name,
         description,
         price,
         stock
-    },{
-      withCredentials: true
     }).then(response => {
         console.log(`response: ${response.data.message}`);
         setMessage(response.data.message);
+    }).catch((e) => {
+      console.log(`Error: ${e}`);
+      if (e.response){
+        setMessage(e.response.data.detail)
+      } else {
+        setResponse('An error occurred while trying to delete the product')
+      }
     })
   };
 
 
   const deleteProduct = () => {
-    axios.delete(`http://localhost:8000/products/delete-product/${productId}/`,{
-      withCredentials: true
-    })
+    axiosInstance.delete(`products/delete-product/${productId}/`)
     .then(() =>{
-      // console.log(`Data: ${response.data}`);
       navigate('/products')
     }
     ).catch((e) => {
       console.log(`Error: ${e}`);
-      setResponse('An error occurred while trying to delete the product')
+      if (e.response){
+        setMessage(e.response.data.detail)
+      } else {
+        setResponse('An error occurred while trying to delete the product')
+      }
     })
   }
   
   const UpdateProvider = () => {
-    navigate(`update-provider-form/${providerValue.current}`)
+    navigate(`/update-provider-form/${providerValue.current}`)
   }
 
   useEffect(() => {
     getProduct()
   },[])
   return (
-    <>
-    <div>
+   <div className='form-page'>
+    <nav className='nav-div'>
     <button onClick={() => {navigate('/products')}}> <IoArrowBack /> Back</button>
     {providerUpdateBtn && <button onClick={UpdateProvider}> Update Provider <IoAddCircleOutline />  </button>}
     {addProviderBtn && <button onClick={() => {navigate('provider-form')}}> Add Provider <IoAddCircleOutline /> </button>}
     <button onClick={deleteProduct}>Delete</button>
     {response}
-    </div>
-    <div className="signup-container">
+    </nav>
+    <div className="update-container">
       <h2>Update Product</h2>
-      <form onSubmit={handleSubmit}>
+      <form className='update-form' onSubmit={handleSubmit}>
         <div>
           <label>Name:</label>
           <input
@@ -132,11 +137,11 @@ const UpdateProduct = () => {
             required
           />
         </div>
-        <button type="submit">Update Product</button>
+        <button type="submit" className="login-button">Update Product</button>
       </form>
       {message && <p>{message}</p>}
     </div>
-    </>
+    </div>
   );
 };
 

@@ -1,5 +1,7 @@
-from .base_repository import BaseRepo
 from users.models import User
+
+from .base_repository import BaseRepo
+
 
 class UserRepo(BaseRepo):
     """

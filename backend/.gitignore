@@ -1,1 +1,6 @@
 smart_env
+smartinvent/cert.pem
+smartinvent/.env
+smartinvent/db.sqlite3
+smartinvent/host.pem
+smartinvent/key.pem

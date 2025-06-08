@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import CreateUser,ObtainToken,LogoutUser,GetUser,UpdateUser
 from rest_framework_simplejwt.views import TokenRefreshView
+
+from .views import CreateUser, GetUser, LogoutUser, ObtainToken, UpdateUser
 
 urlpatterns = [
     path('create/', CreateUser.as_view(), name='create_user'),

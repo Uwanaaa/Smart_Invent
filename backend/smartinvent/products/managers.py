@@ -1,5 +1,6 @@
+from django.contrib.postgres.search import SearchVector, TrigramSimilarity
 from django.db import models
-from django.contrib.postgres.search import TrigramSimilarity,SearchVector
+
 
 class ProductManager(models.Manager):
     def query_search(self,query):

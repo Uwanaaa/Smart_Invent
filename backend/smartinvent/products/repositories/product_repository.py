@@ -1,5 +1,7 @@
 from users.repositories.base_repository import BaseRepo
+
 from ..models import Product
+
 
 class ProductRepo(BaseRepo):
     """

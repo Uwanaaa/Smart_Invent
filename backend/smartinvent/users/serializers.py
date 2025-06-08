@@ -1,12 +1,12 @@
+from django.contrib.auth.hashers import make_password
+from django.shortcuts import get_object_or_404
+from rest_framework import serializers
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.serializers import ModelSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework import serializers
-from django.contrib.auth.hashers import make_password
-from .models import User
-from django.shortcuts import get_object_or_404
 
+from .models import User
 
 
 class UserSerializer(ModelSerializer):

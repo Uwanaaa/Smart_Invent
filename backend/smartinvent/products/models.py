@@ -1,8 +1,7 @@
-from django.db import models
 from django.contrib.postgres.indexes import GinIndex
+from django.db import models
+
 from .managers import ProductManager
-
-
 
 
 class Product(models.Model):

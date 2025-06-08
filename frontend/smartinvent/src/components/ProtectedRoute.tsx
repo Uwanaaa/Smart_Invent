@@ -5,7 +5,7 @@ import { selectIsAuthenticated } from '../../redux/authSlice';
 const ProtectedRoute = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/" replace />;
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
 export default ProtectedRoute;

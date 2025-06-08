@@ -1,8 +1,8 @@
-from django.utils.deprecation import MiddlewareMixin
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from django.contrib.auth.models import AnonymousUser
 import threading
 
+from django.contrib.auth.models import AnonymousUser
+from django.utils.deprecation import MiddlewareMixin
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 _user = threading.local()
 

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/authSlice';
+import { LuEyeClosed, LuEye } from "react-icons/lu";
 import axiosInstance from '../utils/axiosInstance';
 import inventory2 from '../assets/inventory2.jpeg'
 import './SignUp.css';
@@ -10,6 +11,7 @@ const Login = () => {
   const [username, setName] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,8 +31,11 @@ const Login = () => {
         dispatch(loginUser());
         navigate('/products');
     }).catch(error => {
-        console.error('Login error:', error.response ? error.response.data : error.message);
+      if (error.response) {
+        setMessage(error.response.data.detail);
+        } else {
         setMessage('Login failed. Please check your credentials.');
+        }
     });
   };
 
@@ -56,12 +61,21 @@ const Login = () => {
           />
           
           <label>Password:</label>
+        <div className="password-box">
           <input 
-            type="password" 
+            type={showPassword ? "text" : "password"} 
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             required 
           />
+          <button 
+            type="button" 
+            className="password-toggle"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <LuEye /> : <LuEyeClosed />}
+          </button>
+        </div>
           
           <button type="submit" className="login-button">Login</button>
         </form>
